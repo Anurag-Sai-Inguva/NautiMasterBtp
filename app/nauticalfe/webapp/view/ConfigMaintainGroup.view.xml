@@ -19,12 +19,14 @@
                         class="size1"
                         color="#FFFFFF"
                         press="onBackPress"
+                        id="backButton"
                     />
                     <core:Icon
                         src="sap-icon://home"
                         class="size1"
                         color="#FFFFFF"
                         press="onBackPressHome"
+                        id="homeButton"
                     />
                     <Image
                         class="size1"
@@ -63,13 +65,13 @@
             class="_IDGenBar1"
          >
             <contentLeft>
-                <Button
+                  <Button id="entryBtn"
                     text="New Entries"
                     press="newEntries"
-                />
-                <Button text="Copy As" press="pressCopy"/>
-                <Button text="Edit"  press="pressEdit"/>
-                <Button text="Delete" press="onDeletePress"/>
+                    />
+                    <Button  id="copyBtn" text="Copy As" press="pressCopy" />
+                    <Button id="editBtn"  text="Edit"  press="pressEdit"/>
+                    <Button  id="deleteBtn" text="Delete" press="onDeletePress"/>
                
                 <Button
                     id="button"
@@ -87,10 +89,10 @@
                     color="#FF0000"
                 />
                 <!-- <Button text="Display" /> -->
-                <Button
+                <!-- <Button
                     text="Exit"
                     press="onExit"
-                />
+                /> -->
             </contentRight>
         </Bar>
         <Label text="Cost Master Table " class="masterheadings" />
@@ -175,14 +177,14 @@
                 <Column>
                     <Text text="User Name" />
                 </Column>
-                <Column>
+                 <Column>
                     <Text text="User ID Group" />
                 </Column>
             </columns>
             <items>
                 <ColumnListItem>
                     <cells>
-                        <Text id="maintaingrpCode1" text="" />
+                        <Input id="maintaingrpCode1" editable="false" />
                         <Input id="maintaingrpCodeDesc1"  editable="true"/>
                     </cells>
                 </ColumnListItem>

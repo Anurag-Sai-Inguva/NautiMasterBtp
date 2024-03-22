@@ -30,7 +30,35 @@ sap.ui.define(
       },
       onBackPress: function () {
         const oRouter = this.getOwnerComponent().getRouter();
-        oRouter.navTo("MastView");
+        const oHistory = History.getInstance();
+        const sPreviousHash = oHistory.getPreviousHash();
+     
+        if( this.getView().byId("entryTypeTable").getVisible() || this.getView().byId("updateTypeTable").getVisible() ){
+          var that = this
+          sap.m.MessageBox.confirm(
+            "Do you want to cancel the record creation?", {
+            title: "Confirmation",
+            onClose: function (oAction) {
+              if (oAction === sap.m.MessageBox.Action.OK) {
+                that.resetView();
+              }
+            }
+          }
+          );
+        }
+        else{
+          this.getView().byId("createTypeTable").setVisible(true)
+          this.getView().byId("entryTypeTable").setVisible(false)
+          this.getView().byId("updateTypeTable").setVisible(false)
+          this.getView().byId("mainPageFooter").setVisible(false)
+          this.getView().byId("mainPageFooter2").setVisible(false)
+          if (sPreviousHash !== undefined) {
+            window.history.go(-1);
+          } 
+          else {
+            oRouter.navTo("RouteMasterDashboard", {}, true);
+          }
+        }
       },
       onPress: function () {
         var oView = this.getView(),
@@ -51,16 +79,31 @@ sap.ui.define(
       },
       onBackPressHome: function () {
         const oRouter = this.getOwnerComponent().getRouter();
-        oRouter.navTo("Routedash");
+        oRouter.navTo("RouteHome");
       },
       onExit: function () {
         const oRouter = this.getOwnerComponent().getRouter();
+        this.getView().byId("createTypeTable").setVisible(true)
+        this.getView().byId("entryTypeTable").setVisible(false)
+        this.getView().byId("updateTypeTable").setVisible(false)
+        this.getView().byId("mainPageFooter").setVisible(false)
+        this.getView().byId("mainPageFooter2").setVisible(false)
         oRouter.navTo("RouteHome");
       },
       newEntries: function () {
-        this.getView().byId("createTypeTable").setVisible(false)
-        this.getView().byId("entryTypeTable").setVisible(true)
-        this.getView().byId("mainPageFooter").setVisible(true)
+        let aItems = this.byId("createTypeTable").getSelectedItems();
+        if(aItems.length>=1){
+          MessageToast.show("Please de-select the Selected Items")
+        }
+        else{
+          this.getView().byId("createTypeTable").setVisible(false)
+          this.getView().byId("entryTypeTable").setVisible(true)
+          this.getView().byId("mainPageFooter").setVisible(true)
+          this.getView().byId("editBtn").setEnabled(false);
+          this.getView().byId("deleteBtn").setEnabled(false);
+          this.getView().byId("copyBtn").setEnabled(false);
+          this.getView().byId("entryBtn").setEnabled(false);
+        }
       },
       onCreateSent: function (ev) {
         sap.m.MessageToast.show("Creating..")
@@ -126,14 +169,48 @@ sap.ui.define(
         });
         oBindListSP.getContexts();
       },
+
       onCancel: function () {
-        this.getView().byId("createTypeTable").setVisible(true);
+        const that = this; // Preserve reference to 'this' for use inside the callback function
+
+        // Show confirmation dialog
+        sap.m.MessageBox.confirm(
+
+          "Do you want to discard the changes?", {
+
+          title: "Confirmation",
+          onClose: function (oAction) {
+            if (oAction === sap.m.MessageBox.Action.OK) {
+              // If user clicks OK, discard changes and reset view
+              that.resetView();
+            }
+
+          }
+        }
+        );
+      },
+      
+
+      resetView: function () {
+        // Reset view to initial state
+        this.getView().byId("updateTypeTable").setVisible(false);
         this.getView().byId("entryTypeTable").setVisible(false);
+        this.getView().byId("mainPageFooter").setVisible(false);
+        this.getView().byId("mainPageFooter2").setVisible(false);
+        aSelectedIds = [];
+        let editFlag = false;
+        let copyFlag = false;
+        this.getView().byId("createTypeTable").setVisible(true).removeSelections();
         this.getView().byId("eventCode").setValue("");
         this.getView().byId("eventCodeDesc").setValue("");
-        this.getView().byId("mainPageFooter").setVisible(true)
+        this.getView().byId("eventCode1").setValue("");
+        this.getView().byId("eventCodeDesc1").setValue("");
+        this.getView().byId("editBtn").setEnabled(true);
+        this.getView().byId("deleteBtn").setEnabled(true);
+        this.getView().byId("copyBtn").setEnabled(true);
+        this.getView().byId("entryBtn").setEnabled(true);
       },
-
+      
       pressEdit: function () {
         if (aSelectedIds.length) {
           if (aSelectedIds.length > 1) {
@@ -149,11 +226,18 @@ sap.ui.define(
         let code = aSelectedIds[0][0];
         let desc = aSelectedIds[0][1];
         console.log(code,desc);
+        this.getView().byId("copyBtn").setEnabled(false)
+        this.getView().byId("editBtn").setEnabled(false)
+        this.getView().byId("deleteBtn").setEnabled(false)
+        this.getView().byId("entryBtn").setEnabled(false)
         this.getView().byId("eventCode1").setValue(code);
         this.getView().byId("eventCodeDesc1").setValue(desc);
-         this.getView().byId('updateTypeTable').setVisible(true);
+        this.getView().byId('updateTypeTable').setVisible(true);
         this.getView().byId("mainPageFooter2").setVisible(true);
+        this.getView().byId("backButton").setEnabled(false)
+        this.getView().byId("homeButton").setEnabled(false)
       },
+      
       onPatchSent: function (ev) {
         sap.m.MessageToast.show("Updating..")
       },
@@ -163,16 +247,18 @@ sap.ui.define(
         if (isSuccess) {
           sap.m.MessageToast.show("Successfully Updated.");
           oView.getModel().refresh();
-          oView.byId("createTypeTable").setVisible(true)
-          oView.byId("mainPageFooter2").setVisible(false);
-          oView.byId("updateTypeTable").setVisible(false);
+          this.resetView();
         } else {
           sap.m.MessageToast.show("Fail to Update Nomination.")
         }
       },
       onUpdate: function () {
         let value1 = aSelectedIds[0][0];
-        let value2 = this.getView().byId("eventCodeDesc1").getValue();
+        let value2 = this.getView().byId("eventCodeDesc1").getValue().trim();
+
+        if(value2==""){
+          MessageToast.show("Please enter description")
+        }
 
         let UpData = {
           Evtty: value1,

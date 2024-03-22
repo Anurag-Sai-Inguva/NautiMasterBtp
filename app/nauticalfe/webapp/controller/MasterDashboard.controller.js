@@ -159,8 +159,16 @@ sap.ui.define(
         oRouter.navTo("RouteHome");
       },
       onBackPress: function () {
-        const oRouter = this.getOwnerComponent().getRouter();
-        oRouter.navTo("RouteHome");
+        const oHistory = History.getInstance();
+        const sPreviousHash = oHistory.getPreviousHash();
+
+        if (sPreviousHash !== undefined) {
+          window.history.go(-1);
+        } 
+        else {
+          const oRouter = this.getOwnerComponent().getRouter();
+          oRouter.navTo("RouteHome", {}, true);
+        }
       },
 
 

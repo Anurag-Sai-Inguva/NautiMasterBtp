@@ -18,12 +18,14 @@
                         class="size1"
                         color="#FFFFFF"
                         press="onBackPress"
+                        id="backButton"
                     />
                     <core:Icon
                         src="sap-icon://home"
                         class="size1"
                         color="#FFFFFF"
                         press="onBackPressHome"
+                        id="homeButton"
                     />
                     <Image
                         class="size1"
@@ -62,13 +64,13 @@
             class="_IDGenBar1"
          >
             <contentLeft>
-                <Button
+                  <Button id="entryBtn"
                     text="New Entries"
                     press="newEntries"
-                />
-                <Button text="Copy As" press="pressCopy"/>
-                <Button text="Edit"  press="pressEdit"/>
-                <Button text="Delete" press="onDeletePress"/>
+                    />
+                    <Button  id="copyBtn" text="Copy As" press="pressCopy" />
+                    <Button id="editBtn"  text="Edit"  press="pressEdit"/>
+                    <Button  id="deleteBtn" text="Delete" press="onDeletePress"/>
                
                 <Button
                     id="button"
@@ -104,9 +106,7 @@
             selectionChange="selectedItems"
             width="100%"
             class="mastertables"
-            growingThreshold="30"
-            growing="true"
-           
+            growing="true"   
         >
             <columns>
                 <Column id="_IDGenColumn1">

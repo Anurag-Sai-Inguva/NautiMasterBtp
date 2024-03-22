@@ -74,26 +74,13 @@
         </headerContent>
         <Bar id="_IDGenBar12" class="_IDGenBar1">
             <contentLeft>
-                <Button
-                    id="_IDGenButton12"
+                 <Button id="entryBtn"
                     text="New Entries"
                     press="newEntries"
-                />
-                <Button
-                    id="_IDGenButton13"
-                    text="Copy As"
-                    press="pressCopy"
-                />
-                <Button
-                    id="_IDGenButton14"
-                    text="Delete"
-                    press="onDeletePress"
-                />
-                <Button
-                    id="_IDGenButton15"
-                    text="Edit"
-                    press="pressEdit"
-                />
+                    />
+                    <Button  id="copyBtn" text="Copy As" press="pressCopy" />
+                    <Button id="editBtn"  text="Edit"  press="pressEdit"/>
+                    <Button  id="deleteBtn" text="Delete" press="onDeletePress"/>
                
                 <Button
                     id="button"
@@ -210,7 +197,7 @@
             <items>
                 <ColumnListItem>
                     <cells>
-                        <Text id="CARCD1" text="" />
+                        <Input id="CARCD1" editable="false" />
                         <Input id="CARDES1"  editable="true"/>
                     </cells>
                 </ColumnListItem>

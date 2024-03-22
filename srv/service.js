@@ -24,6 +24,34 @@ module.exports = cds.service.impl(async function (srv) {
       srv.on('READ', 'VoyTypeSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
       srv.on('READ', 'ZCalculateSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
 
+      srv.on('CREATE', 'BidTypeSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
+      srv.on('CREATE', 'CarTypeSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
+      srv.on('CREATE', 'CargoUnitSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
+      srv.on('CREATE', 'CurTypeSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
+      srv.on('CREATE', 'GtPlanSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
+      srv.on('CREATE', 'GtTabSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
+      srv.on('CREATE', 'VoyTypeSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
+      srv.on('CREATE', 'ZCalculateSet', req => NAUTINAUTICALCV_SRV.run(req.query));
+
+      srv.on('UPDATE', 'BidTypeSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
+      srv.on('UPDATE', 'CarTypeSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
+      srv.on('UPDATE', 'CargoUnitSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
+      srv.on('UPDATE', 'CurTypeSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
+      srv.on('UPDATE', 'GtPlanSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
+      srv.on('UPDATE', 'GtTabSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
+      srv.on('UPDATE', 'VoyTypeSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
+      srv.on('UPDATE', 'ZCalculateSet', req => NAUTINAUTICALCV_SRV.run(req.query));
+
+      srv.on('DELETE', 'BidTypeSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
+      srv.on('DELETE', 'CarTypeSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
+      srv.on('DELETE', 'CargoUnitSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
+      srv.on('DELETE', 'CurTypeSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
+      srv.on('DELETE', 'GtPlanSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
+      srv.on('DELETE', 'GtTabSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
+      srv.on('DELETE', 'VoyTypeSet', req => NAUTINAUTICALCV_SRV.run(req.query)); 
+      srv.on('DELETE', 'ZCalculateSet', req => NAUTINAUTICALCV_SRV.run(req.query));
+
+
       const NAUTIMASTER_BTP_SRV = await cds.connect.to("NAUTIMASTER_BTP_SRV"); 
       srv.on('READ', 'BidMasterSet', req => NAUTIMASTER_BTP_SRV.run(req.query)); 
       srv.on('READ', 'BusinessPartnerSet', req => NAUTIMASTER_BTP_SRV.run(req.query)); 
